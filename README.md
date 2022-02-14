@@ -1,7 +1,7 @@
 
 ### The `ASNA.DataGateHelper.PagedData` class 
 
-The ASNA.DataGateHelper assembly is [available here](https://github.com/ASNA/ASNA.DataGateHelper.) 
+The ASNA.DataGateHelper assembly is [available here](https://github.com/ASNA/ASNA.DataGateHelper). 
 
 > This class requires at least .NET Framework 4.7.2. Be sure your project is set to at least that .NET Framework level.
 

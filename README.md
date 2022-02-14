@@ -3,6 +3,8 @@
 
 The ASNA.DataGateHelper assembly is [available here]()https://github.com/ASNA/ASNA.DataGateHelper. 
 
+> This class requires at least .NET Framework 4.7.2. Be sure your project is set to at least that .NET Framework level.
+
 The `ASNA.DataGateHelper.PagedData` class provides logic to read through an IBM i file a page at a time using SQL. The results of a page read is a strongly-typed collection of objects--typically used to populate a list (ie, a `GridView` in ASP.NET or a `DataGate` in Windows). 
 
 PagedData has two primary underlying enablers

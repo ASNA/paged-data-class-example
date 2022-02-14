@@ -149,5 +149,4 @@ EndClass
 BegClass CustomerPageModel Access(*Public) 
     DclProp CMCustNo Type(*Packed) Len(9,0) Access(*Public)
     DclProp CMName Type(*String) Access(*Public)
-    DclProp CMState Type(*String) Access(*Public)
 EndClass

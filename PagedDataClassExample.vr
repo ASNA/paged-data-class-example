@@ -2,6 +2,16 @@
 // This example shows how to use `ASNA.DataGateHelper's` `PagedData` class.
 // [Download the ASNA.DataGateHelper here](https://github.com/ASNA/ASNA.DataGateHelper).
 
+// This class reduces the effort of providing a basic paged list to less than 20 lines or so
+// code. By manipulating the page number, you can easily page forwards and backwards through the file.
+
+// Things to note:
+//
+// * Pages are derived by SQL with its LIMIT and OFFSET classes and the ORDER BY clause governs the arrival
+//   sequence of the rows into the list and how pages are determined. 
+
+
+
 Using System
 Using System.Collections
 Using System.Collections.Generic
@@ -89,12 +99,17 @@ BegClass Test
         // Add the FROM clause. There must be field in this file that match the fields in the `CustomerPageModel` class.
         SqlClauses.Add('from', 'examples/cmastnewL2')  
         // Add the ORDER BY clause.
+        // It's possible to change the ORDER BY clause at runtime, but if you do, be sure to also set the page number back to 1.
         SqlClauses.Add('orderby', 'cmname, cmcustno')  
 
         // Create the SQL from the clauses added.
         Sql = PagedData.CreateSql(SqlClauses) 
 
         //  Query and write the page data. 
+        //  SQL's OFFSET value is zero-based. An OFFSET of zero gets you page 1. To help keep you sane, the 
+        //  page number provided to the `WriteThenReadTempFile` method is one-based (ie, when PageNumber = 1 you get page 1.) 
+        //  A "page" of data is derived by SQL with its LIMIT and OFFSET classes and the ORDER BY clause governs the arrival
+        //  sequence of the rows into the list and how pages are determined. 
         pd.WriteThenReadTempFile(PageNumber, Sql)
 
         // Immediately after calling `WriteThenReadTempFile` the input file has been queried
@@ -111,7 +126,6 @@ BegClass Test
         // * `pd.MoreRecords` - Boolean value that is *True if there are more pages of records to read.
         // * `pd.RowsRead` - Integer value of actual number of records read. It may be less that the page 
         // size requested if EOF was reached before full page was read.
-
 
         // Usually, here you would bind the `Customers` collection to grid control. In ASP.NET you would do
         // this:
@@ -136,6 +150,11 @@ BegClass Test
         // The `e.CustomClassInstance` argument is the `CustomerPageModel` class instance 
         // created by `PagedData` for a given row. Cast that instance 
         // as a `CustomerPageModel` and add it to the `Customers` collection.
+
+        // Caution: don't forget to add this event handler and to add the 
+        // code below to add the PageModel to the PageModel collection. If you forget
+        // this, the program finishes normally but the PageModel collection is empty. 
+        // And, I promise, will drive you crazy! 
         Customers.Add(e.CustomClassInstance *As CustomerPageModel) 
     EndSr
     

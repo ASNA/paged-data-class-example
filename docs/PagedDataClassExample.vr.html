@@ -76,7 +76,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      <p>Declare DB connection .</p>
+      <p>Declare DB connection.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nx">DclDB</span> <span class="nx">DGDB</span> <span class="nx">DBName</span><span class="p">(</span><span class="s1">&#39;*Public/Leyland&#39;</span><span class="p">)</span></pre></div>
@@ -325,7 +325,8 @@ and its result set written to a work file. The work file has been read and the
       <div class='octowrap'>
         <a class='octothorpe' href='#section-22'>#</a>
       </div>
-      <p>At this point, the <code>PagedData</code> class has these properties available for your use:</p>
+      <p>The work file schema is defined by the <code>CustomerPageModel</code> class. The fields 
+defined in your SELECT class govern what fields are written to the work file. </p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -336,6 +337,18 @@ and its result set written to a work file. The work file has been read and the
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>At this point, the <code>PagedData</code> class has these properties available for your use:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
       </div>
       <ul>
 <li><code>pd.MillisecondsToCreateWorkFile</code> - Integer value of milliseconds it took to create the work file.</li>
@@ -350,10 +363,10 @@ size requested if EOF was reached before full page was read.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-24'>
+  <div class='section' id='section-25'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-24'>#</a>
+        <a class='octothorpe' href='#section-25'>#</a>
       </div>
       <p>Usually, here you would bind the <code>Customers</code> collection to grid control. In ASP.NET you would do
 this:</p>
@@ -366,10 +379,10 @@ gridviewCustomers.DataBind()
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-25'>
+  <div class='section' id='section-26'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-25'>#</a>
+        <a class='octothorpe' href='#section-26'>#</a>
       </div>
       <p>For this example, iterate over the <code>Customers</code> collection and show its fields.</p>
     </div>
@@ -387,10 +400,10 @@ gridviewCustomers.DataBind()
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-26'>
+  <div class='section' id='section-27'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-26'>#</a>
+        <a class='octothorpe' href='#section-27'>#</a>
       </div>
       <p>This event is raised by the <code>PagedData</code> class for each row read.
 The <code>e.CustomClassInstance</code> argument is the <code>CustomerPageModel</code> class instance 
@@ -406,12 +419,15 @@ as a <code>CustomerPageModel</code> and add it to the <code>Customers</code> col
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-27'>
+  <div class='section' id='section-28'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-27'>#</a>
+        <a class='octothorpe' href='#section-28'>#</a>
       </div>
-      <p>The CustomerPageModel&rsquo;s fields must be present in the file specified in the SQL&rsquo;s FROM clause.</p>
+      <p>The <code>CustomerPageModel's</code> fields must be present in the file specified in the SQL&rsquo;s <code>FROM</code> clause.
+You can name this class anything you want, but a good convention is to have it end with 
+&lsquo;PageModel&rsquo; to convey its purpose. It is usually a good practice to put every class in its own 
+source member. For example purposes here it is included in this source member.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="nx">BegClass</span> <span class="nx">CustomerPageModel</span> <span class="nx">Access</span><span class="p">(</span><span class="o">*</span><span class="nx">Public</span><span class="p">)</span> 

@@ -29,7 +29,7 @@ EndClass
 
 BegClass Test
 
-    // Declare DB connection .
+    // Declare DB connection.
     DclDB DGDB DBName('*Public/Leyland') 
     
     // Declare page size.
@@ -100,6 +100,9 @@ BegClass Test
         // Immediately after calling `WriteThenReadTempFile` the input file has been queried
         // and its result set written to a work file. The work file has been read and the 
         // `Customers` collection populated. (See the `OnAfterRowRead` event handler below.)
+        
+        // The work file schema is defined by the `CustomerPageModel` class. The fields 
+        // defined in your SELECT class govern what fields are written to the work file. 
 
         // At this point, the `PagedData` class has these properties available for your use:
 
@@ -139,7 +142,10 @@ BegClass Test
 
 EndClass
 
-// The CustomerPageModel's fields must be present in the file specified in the SQL's FROM clause.
+// The `CustomerPageModel's` fields must be present in the file specified in the SQL's `FROM` clause.
+// You can name this class anything you want, but a good convention is to have it end with 
+// 'PageModel' to convey its purpose. It is usually a good practice to put every class in its own 
+// source member. For example purposes here it is included in this source member.
 BegClass CustomerPageModel Access(*Public) 
     DclProp CMCustNo Type(*Packed) Len(9,0) Access(*Public)
     DclProp CMName Type(*String) Access(*Public)

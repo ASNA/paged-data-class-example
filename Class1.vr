@@ -1,0 +1,143 @@
+﻿Using System
+Using System.Collections
+Using System.Collections.Generic
+Using System.Text
+Using ASNA.DataGateHelper
+
+BegClass Program
+
+    BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread())
+        DclSrParm args Type(*String) Rank(1)
+
+        DclFld t Type(Test) New()
+
+        t.Run()
+        t.Close()
+
+        Console.WriteLine('Press any key to continue...') 
+        Console.ReadKey() 
+    EndSr
+
+EndClass
+
+
+BegClass Test
+
+    // Declare DB connection .
+    DclDB DGDB DBName('*Public/Leyland') 
+    
+    // Declare page size.
+    DclConst PAGE_SIZE Value(5) 
+
+    // The `CustomerPageModel` class defines the temporary work file the SQL creates. 
+    // Declare a collection of `CustomerPageModel`. A `CustomerPageModel` instance
+    // is created for each record read. 
+    DclFld Customers Type(List(*Of CustomerPageModel)) New()
+
+    // Declare the PagedData class.
+    DclFld pd Type(PagedData) WithEvents(*Yes)  
+
+
+    // Fetch three pages.
+    BegSr Run Access(*Public) 
+        DclFld PageNumber Type(*Integer4) 
+
+        PageNumber = 1
+
+        // Fetch three pages: 
+        Do FromVal(1) ToVal(3) 
+            GetPage(PageNumber) 
+            PageNumber += 1
+        EndDo 
+
+    EndSr
+
+    // Close the DB connection before this class goes out of scope.
+    BegSr Close Access(*Public) 
+        Disconnect DGDB 
+    EndSr
+
+    // Fetch a page of data.
+    BegSr GetPage Access(*Public) 
+        DclSrParm PageNumber Type(*Integer4) 
+
+        // Declare an SQL variable for the SQL to be passed to the IBM i RPG program object.
+        DclFld Sql Type(*String) 
+        // Declare a dictionary for the SQL clauses needed.
+        DclFld SqlClauses Type(Dictionary (*Of *String, *String)) New()       
+
+        // Instance the PagedData class. 
+
+        // 1. DGDB = DG database connection to use for RPG program call.
+        // 2. 'qtemp' = target library for work file.
+        // 3. 'rpzimmie' = library containing program to call.
+        // 4. 'sqlimmed' = program to call.
+        // 5. `PAGE_SIZE` = page size to produce (See `PAGE_SIZE` constant)
+        // 6. `*TypeOf(CustomerPageModel)` tells the `PagedData` class what object type to populate for each row read.
+
+        pd = *New PagedData(DGDB, 'qtemp', 'rpzimmie', 'sqlimmed', PAGE_SIZE, *TypeOf(CustomerPageModel)) 
+
+        // Clear the `Customers` collection before each page read.
+        Customers.Clear()
+
+        // Add the SELECT clause.
+        SqlClauses.Add('select', 'cmcustno, cmname')   
+        // Add the FROM clause. There must be field in this file that match the fields in the `CustomerPageModel` class.
+        SqlClauses.Add('from', 'examples/cmastnewL2')  
+        // Add the ORDER BY clause.
+        SqlClauses.Add('orderby', 'cmname, cmcustno')  
+
+        // Create the SQL from the clauses added.
+        Sql = PagedData.CreateSql(SqlClauses) 
+
+        //  Query and write the page data. 
+        pd.WriteThenReadTempFile(PageNumber, Sql)
+
+        // Immediately after calling `WriteThenReadTempFile` the input file has been queried
+        // and its result set written to a work file. The work file has been read and the 
+        // `Customers` collection populated. (See the `OnAfterRowRead` event handler below.)
+
+        // At this point, the `PagedData` class has these properties available for your use:
+
+        // * `pd.MillisecondsToCreateWorkFile` - Integer value of milliseconds it took to create the work file.
+        // * `pd.MillisecondsToReadWorkFile`  - Integer value of the milliseconds it to to to read the work file.
+        // * `pd.MoreRecords` - Boolean value that is *True if there are more pages of records to read.
+        // * `pd.RowsRead` - Integer value of actual number of records read. It may be less that the page 
+        // size requested if EOF was reached before full page was read.
+
+
+        // Usually, here you would bind the `Customers` collection to grid control. In ASP.NET you would do
+        // this:
+        // ```
+        // gridviewCustomers.DataSource = Customers
+        // gridviewCustomers.DataBind() 
+        // ```
+
+        // For this example, iterate over the `Customers` collection and show its fields.
+        Console.WriteLine("Page number: {0}", PageNumber)             
+        ForEach Customer Type(CustomerPageModel) Collection(*This.Customers) 
+            Console.WriteLine("{0:00000} - {1}", Customer.CMCustNo, Customer.CMName)
+        EndFor 
+        Console.WriteLine("----------------------------------------") 
+    EndSr
+
+    BegSr OnAfterRowRead Event(pd.AfterRowRead) 
+        DclSrParm Sender Type(*Object)
+        DclSrParm e Type(ASNA.DataGateHelper.AfterRowReadArgs) 
+
+        // This event is raised by the `PagedData` class for each row read.
+        // The `e.CustomClassInstance` argument is the `CustomerPageModel` class instance 
+        // created by `PagedData` for a given row. Cast that instance 
+        // as a `CustomerPageModel` and add it to the `Customers` collection.
+        Customers.Add(e.CustomClassInstance *As CustomerPageModel) 
+    EndSr
+    
+
+EndClass
+
+// The CustomerPageModel's fields must be present in the file specified in the SQL's FROM clause.
+BegClass CustomerPageModel Access(*Public) 
+    DclProp CMCustNo Type(*Packed) Len(9,0) Access(*Public)
+    DclProp CMName Type(*String) Access(*Public)
+    DclProp CMState Type(*String) Access(*Public)
+EndClass

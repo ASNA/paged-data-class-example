@@ -1,0 +1,114 @@
+        ctl-opt option(*nodebugio:*srcstmt:*nounref) dftactgrp(*no) ;
+
+        Dcl-Pi *N;
+            Sql Char(1024);
+            xMessageId char(10) ;
+            xMessageId1 char(7) ;
+            xMessageId2 char(10);
+            xMessageLength Int(10);
+            xMessageText char(1000) ;
+            xReturnedSQLCode char(5) ;
+            xReturnedSQLState char(5) ;
+            xRowsCount int(10) ;
+        End-Pi;
+
+        Dcl-S RowsReturned Int(10);
+
+        // Diagnostic info
+        dcl-s MessageId char(10);
+        dcl-s MessageId1 varchar(7);
+        dcl-s MessageId2 like(MessageId1);
+        dcl-s MessageLength int(5);
+        dcl-s MessageText varchar(32740);
+        dcl-s ReturnedSQLCode char(5);
+        dcl-s ReturnedSQLState char(5);
+        dcl-s RowsCount int(10);
+
+        ConfigureSQL();
+
+        ExecSql(Sql);
+
+        Return;
+
+        Dcl-Proc ConfigureSQL;
+            Dcl-Pi *N Int(10);
+            End-Pi;
+
+            EXEC SQL
+                SET OPTION COMMIT = *NONE;
+
+            EXEC SQL
+                SET OPTION NAMING = *SYS;
+
+            return 0;
+        End-Proc;
+
+        Dcl-Proc ExecSql;
+            Dcl-Pi *N Int(10);
+                Sql Char(1024);
+            End-Pi;
+
+            If Sql = *Blanks;
+                Return 0;
+            EndIf;
+
+            EXEC SQL
+                EXECUTE IMMEDIATE :Sql;
+                Diagnostics();
+            Return 0;
+        End-Proc;
+
+        dcl-proc Diagnostics ;
+            exec sql GET DIAGNOSTICS
+               :RowsCount = ROW_COUNT;
+
+            exec sql GET DIAGNOSTICS CONDITION 1
+               :ReturnedSqlCode = DB2_RETURNED_SQLCODE,
+               :ReturnedSQLState = RETURNED_SQLSTATE,
+               :MessageLength = MESSAGE_LENGTH,
+               :MessageText = MESSAGE_TEXT,
+               :MessageId = DB2_MESSAGE_ID,
+               :MessageId1 = DB2_MESSAGE_ID1,
+               :MessageId2 = DB2_MESSAGE_ID2 ;
+
+            AssignDiags();
+        end-proc;
+
+        dcl-proc AssignDiags;
+            xMessageId          = MessageId;
+            xMessageId1         = MessageId1;
+            xMessageId2         = MessageId2;
+            xMessageLength      = MessageLength;
+            xMessageText        = MessageText;
+            xReturnedSQLCode    = ReturnedSQLCode;
+            xReturnedSQLState   = ReturnedSQLState;
+            xRowsCount          = RowsCount;
+        end-proc;
+
+        //
+        // RPG program to get a delimited list of text
+        // and values for an autocomplete feature.
+        //
+        // Version .92
+        //
+        // Copyright 2018 by ASNA. All rights reserved.
+        // This program is free to use by ASNA customers
+        // currently on an ASNA product maintenance plan. You
+        // may use this program in your commercial applications
+        // but please leave this notice intact.
+
+        // THIS SOFTWARE IS PROVIDED AS_IS AND IN NO EVENT SHALL
+        // ASNA BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT,
+        // SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES,
+        // INCLUDING LOST PROFITS, ARISING OUT OF THE USE
+        // OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+        // ASNA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+        // ASNA SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING,
+        // BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+        // MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+        // THE SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY,
+        // PROVIDED HEREUNDER IS PROVIDED "AS IS." ASNA HAS NO
+        // OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
+        // ENHANCEMENTS, OR MODIFICATIONS.
+        //

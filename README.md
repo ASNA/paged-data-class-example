@@ -45,7 +45,7 @@ AVR can't read an IBM i SQL result set directly, so the SQL writes the result se
 
 #### Annotated `PagedClass` Example
 
-[See this page](https://asna.github.io/paged-data-class-example/PagedDataClassExample.vr.html) for a fully annotated example for how to use the `PagedData` class.
+<a href="https://asna.github.io/paged-data-class-example/PagedDataClassExample.vr.html" target="_blank">See this page</a> for a fully annotated example for how to use the `PagedData` class.
 
 
 ### The `ASNA.DataGateHelper.IBMiSqlPage` class 

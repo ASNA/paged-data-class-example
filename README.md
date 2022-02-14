@@ -5,6 +5,10 @@ The ASNA.DataGateHelper assembly is [available here](https://github.com/ASNA/ASN
 
 > This class requires at least .NET Framework 4.7.2. Be sure your project is set to at least that .NET Framework level.
 
+> This class has a dependency on the `shortid` nuget.org package. Download its zip file (with "Download Package") and unzip it (although it doesn't end in `.zip` the package file is a zip file.) Then set a reference in your project to its DLL located here:
+> `[your download folder]\shortid.3.0.1\lib\netstandard1.0\shortid.dll`
+
+
 The `ASNA.DataGateHelper.PagedData` class provides logic to read through an IBM i file a page at a time using SQL. The results of a page read is a strongly-typed collection of objects--typically used to populate a list (ie, a `GridView` in ASP.NET or a `DataGate` in Windows). 
 
 PagedData has two primary underlying enablers

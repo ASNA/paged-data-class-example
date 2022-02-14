@@ -1,7 +1,7 @@
 
-## The ASNA.DataGateHelper.PagedData class 
+### The `ASNA.DataGateHelper.PagedData` class 
 
-The ASNA.DataGateHelper assembly is [available here]()https://github.com/ASNA/ASNA.DataGateHelper. 
+The ASNA.DataGateHelper assembly is [available here](https://github.com/ASNA/ASNA.DataGateHelper.) 
 
 > This class requires at least .NET Framework 4.7.2. Be sure your project is set to at least that .NET Framework level.
 
@@ -37,12 +37,12 @@ At runtime, your application provides the SELECT, FROM, ORDER BY, and optionally
 
 AVR can't read an IBM i SQL result set directly, so the SQL writes the result set to a specified temporary table. Immediately after the RPG program to create this temporary table, AVR then reads that file and creates a strongly-list collection of objects derived from that file's record contents. 
 
-### Annotated `PagedClass` Example
+#### Annotated `PagedClass` Example
 
-[See this page](https://asna.github.io/paged-data-class-example/PagedDataClassExample.vr.htm) for a fully annotated example for how to use the `PagedData` class.
+[See this page](https://asna.github.io/paged-data-class-example/PagedDataClassExample.vr.html) for a fully annotated example for how to use the `PagedData` class.
 
 
-## The ASNA.DataGateHelper.IBMiSqlPage class 
+### The `ASNA.DataGateHelper.IBMiSqlPage` class 
 
 This class used by PagedData to call the RPG program that executes SQL. The source code for that RPG program is below. `IBMiSqlPage's` `Call` method receives an SQL statement and several status parameters. The RPG program uses ILE RPG's embedded SQL to do an `EXECUTE IMMEDATE` on the SQL provided. 
 
@@ -138,7 +138,7 @@ end-proc;
 ```
 <small>Figure 2. IBMiSqlPage class source code.</small>
 
-## The ASNA.DataGateHelper.IBMiCmdExec class 
+### The `ASNA.DataGateHelper.IBMiCmdExec` class 
 
 This is a utility class you can use to call IBM i's QCMDEXC API to execute a command on the IBM i. 
 

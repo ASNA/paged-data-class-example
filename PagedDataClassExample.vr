@@ -4,7 +4,7 @@ Using System.Collections.Generic
 Using System.Text
 Using ASNA.DataGateHelper
 
-BegClass Program
+BegClass PagedDataClassExample
 
     BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread())
         DclSrParm args Type(*String) Rank(1)
@@ -34,10 +34,9 @@ BegClass Test
     // is created for each record read. 
     DclFld Customers Type(List(*Of CustomerPageModel)) New()
 
-    // Declare the PagedData class.
+    // Declare the `PagedData` class.
     DclFld pd Type(PagedData) WithEvents(*Yes)  
-
-
+    
     // Fetch three pages.
     BegSr Run Access(*Public) 
         DclFld PageNumber Type(*Integer4) 
@@ -49,7 +48,6 @@ BegClass Test
             GetPage(PageNumber) 
             PageNumber += 1
         EndDo 
-
     EndSr
 
     // Close the DB connection before this class goes out of scope.

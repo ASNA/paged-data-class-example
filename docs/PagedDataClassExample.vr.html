@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>Class1.vr</title>
+  <title>PagedDataClassExample.vr</title>
   <link rel="stylesheet" href="pycco.css">
 </head>
 <body>
 <div id='container'>
   <div id="background"></div>
   <div class='section'>
-    <div class='docs'><h1>Class1.vr</h1></div>
+    <div class='docs'><h1>PagedDataClassExample.vr</h1></div>
   </div>
   <div class='clearall'>
   <div class='section' id='section-0'>
@@ -26,7 +26,7 @@
 <span class="nx">Using</span> <span class="nx">System</span><span class="p">.</span><span class="nx">Text</span>
 <span class="nx">Using</span> <span class="nx">ASNA</span><span class="p">.</span><span class="nx">DataGateHelper</span>
 
-<span class="nx">BegClass</span> <span class="nx">Program</span>
+<span class="nx">BegClass</span> <span class="nx">PagedDataClassExample</span>
 
     <span class="nx">BegSr</span> <span class="nx">Main</span> <span class="nx">Shared</span><span class="p">(</span><span class="o">*</span><span class="nx">Yes</span><span class="p">)</span> <span class="nx">Access</span><span class="p">(</span><span class="o">*</span><span class="nx">Public</span><span class="p">)</span> <span class="nx">Attributes</span><span class="p">(</span><span class="nx">System</span><span class="p">.</span><span class="nx">STAThread</span><span class="p">())</span>
         <span class="nx">DclSrParm</span> <span class="nx">args</span> <span class="nx">Type</span><span class="p">(</span><span class="o">*</span><span class="nb">String</span><span class="p">)</span> <span class="nx">Rank</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
@@ -90,7 +90,7 @@ is created for each record read. </p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-4'>#</a>
       </div>
-      <p>Declare the PagedData class.</p>
+      <p>Declare the <code>PagedData</code> class.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nx">DclFld</span> <span class="nx">pd</span> <span class="nx">Type</span><span class="p">(</span><span class="nx">PagedData</span><span class="p">)</span> <span class="nx">WithEvents</span><span class="p">(</span><span class="o">*</span><span class="nx">Yes</span><span class="p">)</span></pre></div>
@@ -108,14 +108,7 @@ is created for each record read. </p>
       <div class="highlight"><pre>    <span class="nx">BegSr</span> <span class="nx">Run</span> <span class="nx">Access</span><span class="p">(</span><span class="o">*</span><span class="nx">Public</span><span class="p">)</span> 
         <span class="nx">DclFld</span> <span class="nx">PageNumber</span> <span class="nx">Type</span><span class="p">(</span><span class="o">*</span><span class="nx">Integer4</span><span class="p">)</span> 
 
-        <span class="nx">PageNumber</span> <span class="o">=</span> <span class="mf">1</span>
-
-        <span class="nx">Do</span> <span class="nx">FromVal</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span> <span class="nx">ToVal</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span> 
-            <span class="nx">GetPage</span><span class="p">(</span><span class="nx">PageNumber</span><span class="p">)</span> 
-            <span class="nx">PageNumber</span> <span class="o">+=</span> <span class="mf">1</span>
-        <span class="nx">EndDo</span> 
-
-    <span class="nx">EndSr</span></pre></div>
+        <span class="nx">PageNumber</span> <span class="o">=</span> <span class="mf">1</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -123,6 +116,22 @@ is created for each record read. </p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Fetch three pages: </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="nx">Do</span> <span class="nx">FromVal</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span> <span class="nx">ToVal</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span> 
+            <span class="nx">GetPage</span><span class="p">(</span><span class="nx">PageNumber</span><span class="p">)</span> 
+            <span class="nx">PageNumber</span> <span class="o">+=</span> <span class="mf">1</span>
+        <span class="nx">EndDo</span> 
+    <span class="nx">EndSr</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
       </div>
       <p>Close the DB connection before this class goes out of scope.</p>
     </div>
@@ -133,10 +142,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-7'>
+  <div class='section' id='section-8'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-7'>#</a>
+        <a class='octothorpe' href='#section-8'>#</a>
       </div>
       <p>Fetch a page of data.</p>
     </div>
@@ -146,10 +155,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-8'>
+  <div class='section' id='section-9'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-8'>#</a>
+        <a class='octothorpe' href='#section-9'>#</a>
       </div>
       <p>Declare an SQL variable for the SQL to be passed to the IBM i RPG program object.</p>
     </div>
@@ -158,10 +167,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-9'>
+  <div class='section' id='section-10'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-9'>#</a>
+        <a class='octothorpe' href='#section-10'>#</a>
       </div>
       <p>Declare a dictionary for the SQL clauses needed.</p>
     </div>
@@ -170,10 +179,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-10'>
+  <div class='section' id='section-11'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-10'>#</a>
+        <a class='octothorpe' href='#section-11'>#</a>
       </div>
       <p>Instance the PagedData class. </p>
     </div>
@@ -182,10 +191,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-11'>
+  <div class='section' id='section-12'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-11'>#</a>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <ol>
 <li>DGDB = DG database connection to use for RPG program call.</li>
@@ -201,10 +210,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
+  <div class='section' id='section-13'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
+        <a class='octothorpe' href='#section-13'>#</a>
       </div>
       <p>Clear the <code>Customers</code> collection before each page read.</p>
     </div>
@@ -213,10 +222,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
+  <div class='section' id='section-14'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
+        <a class='octothorpe' href='#section-14'>#</a>
       </div>
       <p>Add the SELECT clause.</p>
     </div>
@@ -225,10 +234,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-14'>
+  <div class='section' id='section-15'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-14'>#</a>
+        <a class='octothorpe' href='#section-15'>#</a>
       </div>
       <p>Add the FROM clause. There must be field in this file that match the fields in the <code>CustomerPageModel</code> class.</p>
     </div>
@@ -237,10 +246,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
+  <div class='section' id='section-16'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
+        <a class='octothorpe' href='#section-16'>#</a>
       </div>
       <p>Add the ORDER BY clause.</p>
     </div>
@@ -249,10 +258,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-16'>
+  <div class='section' id='section-17'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
+        <a class='octothorpe' href='#section-17'>#</a>
       </div>
       <p>Create the SQL from the clauses added.</p>
     </div>
@@ -261,10 +270,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-17'>
+  <div class='section' id='section-18'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-17'>#</a>
+        <a class='octothorpe' href='#section-18'>#</a>
       </div>
       <p>Query and write the page data. </p>
     </div>
@@ -273,10 +282,10 @@ is created for each record read. </p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-18'>
+  <div class='section' id='section-19'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-18'>#</a>
+        <a class='octothorpe' href='#section-19'>#</a>
       </div>
       <p>Immediately after calling <code>WriteThenReadTempFile</code> the input file has been queried
 and its result set written to a work file. The work file has been read and the 
@@ -287,10 +296,10 @@ and its result set written to a work file. The work file has been read and the
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-19'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-19'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       <p>At this point, the <code>PagedData</code> class has these properties available for your use:</p>
     </div>
@@ -299,10 +308,10 @@ and its result set written to a work file. The work file has been read and the
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       <ul>
 <li><code>pd.MillisecondsToCreateWorkFile</code> - Integer value of milliseconds it took to create the work file.</li>
@@ -317,10 +326,10 @@ size requested if EOF was reached before full page was read.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       <p>Usually, here you would bind the <code>Customers</code> collection to grid control. In ASP.NET you would do
 this:</p>
@@ -333,10 +342,10 @@ gridviewCustomers.DataBind()
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       <p>For this example, iterate over the <code>Customers</code> collection and show its fields.</p>
     </div>
@@ -354,10 +363,10 @@ gridviewCustomers.DataBind()
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-23'>
+  <div class='section' id='section-24'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
+        <a class='octothorpe' href='#section-24'>#</a>
       </div>
       <p>This event is raised by the <code>PagedData</code> class for each row read.
 The <code>e.CustomClassInstance</code> argument is the <code>CustomerPageModel</code> class instance 
@@ -373,10 +382,10 @@ as a <code>CustomerPageModel</code> and add it to the <code>Customers</code> col
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-24'>
+  <div class='section' id='section-25'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-24'>#</a>
+        <a class='octothorpe' href='#section-25'>#</a>
       </div>
       <p>The CustomerPageModel&rsquo;s fields must be present in the file specified in the SQL&rsquo;s FROM clause.</p>
     </div>

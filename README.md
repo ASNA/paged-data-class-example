@@ -33,6 +33,8 @@ CREATE TABLE {libraryName}/{uniqueObjectId} as
 
 This SQL uses the IBM i's SQL LIMIT/OFFSET feature to fetch data a page at a time. SQL does all of the hard work fetching a page. "Pages" are calculated based on the LIMIT (the page size) and the OFFSET (a zero-based page number). LIMIT/OFFSET requires ORDER BY clause. This clause ensures correct page selection. 
 
+At runtime, your application provides the SELECT, FROM, ORDER BY, and optionally, the WHERE clauses.
+
 AVR can't read an IBM i SQL result set directly, so the SQL writes the result set to a specified temporary table. Immediately after the RPG program to create this temporary table, AVR then reads that file and creates a strongly-list collection of objects derived from that file's record contents. 
 
 ### Example

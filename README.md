@@ -35,6 +35,8 @@ CREATE TABLE {libraryName}/{uniqueObjectId} as
 
 <small>Figure 1. Example SQL to fetch a page of data.</small>
 
+> A tip of the SQL beanie to Eugene Belkin who provided some valuable SQL expertise that helped make this technique work.  
+
 This SQL uses the IBM i's SQL LIMIT/OFFSET feature to fetch data a page at a time. SQL does all of the hard work fetching a page. "Pages" are calculated based on the LIMIT (the page size) and the OFFSET (a zero-based page number). LIMIT/OFFSET requires ORDER BY clause. This clause ensures correct page selection. 
 
 At runtime, your application provides the SELECT, FROM, ORDER BY, and optionally, the WHERE clauses.

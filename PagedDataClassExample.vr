@@ -1,11 +1,17 @@
-﻿Using System
+﻿
+// This example shows how to use `ASNA.DataGateHelper's` `PagedData` class.
+// [Download the ASNA.DataGateHelper here](https://github.com/ASNA/ASNA.DataGateHelper).
+
+Using System
 Using System.Collections
 Using System.Collections.Generic
 Using System.Text
 Using ASNA.DataGateHelper
 
+
 BegClass PagedDataClassExample
 
+    // This code launches the example.
     BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread())
         DclSrParm args Type(*String) Rank(1)
 

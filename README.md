@@ -1,5 +1,5 @@
 
-## The ASNA.DataGateHelper.PagedData class. 
+## The ASNA.DataGateHelper.PagedData class 
 
 The ASNA.DataGateHelper assembly is [available here]()https://github.com/ASNA/ASNA.DataGateHelper. 
 
@@ -37,13 +37,16 @@ At runtime, your application provides the SELECT, FROM, ORDER BY, and optionally
 
 AVR can't read an IBM i SQL result set directly, so the SQL writes the result set to a specified temporary table. Immediately after the RPG program to create this temporary table, AVR then reads that file and creates a strongly-list collection of objects derived from that file's record contents. 
 
-### Example
+### Annotated `PagedClass` Example
+
+[See this page](https://asna.github.io/paged-data-class-example/PagedDataClassExample.vr.htm) for a fully annotated example for how to use the `PagedData` class.
 
 
+## The ASNA.DataGateHelper.IBMiSqlPage class 
 
+This class used by PagedData to call the RPG program that executes SQL. The source code for that RPG program is below. `IBMiSqlPage's` `Call` method receives an SQL statement and several status parameters. The RPG program uses ILE RPG's embedded SQL to do an `EXECUTE IMMEDATE` on the SQL provided. 
 
-
-#### ILE RPG program to execute an SQL statement. 
+You probably won't ever use this class directly. It is used in the `PagedData` class.
 
 ```
 ctl-opt option(*nodebugio:*srcstmt:*nounref) dftactgrp(*no) ;
@@ -133,3 +136,17 @@ dcl-proc AssignDiags;
     xRowsCount          = RowsCount;
 end-proc;
 ```
+<small>Figure 2. IBMiSqlPage class source code.</small>
+
+## The ASNA.DataGateHelper.IBMiCmdExec class 
+
+This is a utility class you can use to call IBM i's QCMDEXC API to execute a command on the IBM i. 
+
+Using the `IBMiCmdExec` class is very simple. Declare the class, passing it a DataGate DB object and then use the `Call` method to execute the IBM i command provided. The DG object you passed to the constructor _must_ be called before using the `Call` method.
+
+DclFld cmdExec Type(IBMiCmdExec) New(DGDB) 
+
+Connect DGDB 
+
+CmdExec.Call('CLRLIB RP_DATA') 
+

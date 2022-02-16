@@ -74,12 +74,6 @@ BegClass Test
     // Fetch a page of data.
     BegSr GetPage Access(*Public) 
         DclSrParm PageNumber Type(*Integer4) 
-
-        // Declare an SQL variable for the SQL to be passed to the IBM i RPG program object.
-        DclFld Sql Type(*String) 
-        // Declare a dictionary for the SQL clauses needed.
-        DclFld SqlClauses Type(Dictionary (*Of *String, *String)) New()       
-
         // Instance the PagedData class. 
 
         // 1. DGDB = DG database connection to use for RPG program call.

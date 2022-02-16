@@ -45,7 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PageCustomers.vr">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="PagedDataClassExample.vr" />
+    <Compile Include="PageStates.vr">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.vr" />
   </ItemGroup>
   <ItemGroup>

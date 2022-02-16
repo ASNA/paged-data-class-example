@@ -16,6 +16,7 @@ Using System
 Using System.Collections
 Using System.Collections.Generic
 Using System.Text
+Using System.Text.RegularExpressions
 Using ASNA.DataGateHelper
 
 
@@ -28,140 +29,61 @@ BegClass PagedDataClassExample
         DclFld t Type(Test) New()
 
         t.Run()
-        t.Close()
-
-        Console.WriteLine('Press any key to continue...') 
-        Console.ReadKey() 
     EndSr
 
 EndClass
 
 
 BegClass Test
-
-    // Declare DB connection.
-    DclDB DGDB DBName('*Public/Leyland') 
     
-    // Declare page size.
-    DclConst PAGE_SIZE Value(5) 
-
     // The `CustomerPageModel` class defines the temporary work file the SQL creates. 
     // Declare a collection of `CustomerPageModel`. A `CustomerPageModel` instance
     // is created for each record read. 
-    DclFld Customers Type(List(*Of CustomerPageModel)) New()
-
-    // Declare the `PagedData` class.
-    DclFld pd Type(PagedData) WithEvents(*Yes)  
     
     // Fetch three pages.
     BegSr Run Access(*Public) 
         DclFld PageNumber Type(*Integer4) 
+        DclFld PageSize Type(*Integer4) 
+        DclFld MoreRecords Type(*Boolean) 
 
-        PageNumber = 1
+        DclFld ConsoleInput Type(*String)
 
-        // Fetch three pages: 
-        Do FromVal(1) ToVal(3) 
-            GetPage(PageNumber) 
-            PageNumber += 1
-        EndDo 
-    EndSr
+        DclFld Pager Type(PageCustomers) New() 
+        //DclFld Pager Type(PageStates) New()
 
-    // Close the DB connection before this class goes out of scope.
-    BegSr Close Access(*Public) 
-        Disconnect DGDB 
-    EndSr
-
-    // Fetch a page of data.
-    BegSr GetPage Access(*Public) 
-        DclSrParm PageNumber Type(*Integer4) 
-        // Instance the PagedData class. 
-
-        // 1. DGDB = DG database connection to use for RPG program call.
-        // 2. 'qtemp' = target library for work file.
-        // 3. 'rpzimmie' = library containing program to call.
-        // 4. 'sqlimmed' = program to call.
-        // 5. `PAGE_SIZE` = page size to produce (See `PAGE_SIZE` constant)
-        // 6. `*TypeOf(CustomerPageModel)` tells the `PagedData` class what object type to populate for each row read.
-
-        pd = *New PagedData(DGDB, 'qtemp', 'rpzimmie', 'sqlimmed', PAGE_SIZE, *TypeOf(CustomerPageModel)) 
-
-        // Clear the `Customers` collection before each page read.
-        Customers.Clear()
-
-        // Add the SELECT clause.
-        pd.AddSQLSelect('SELECT cmcustno, cmname')   
-
-        // Add the FROM clause. There must be field in this file that match the fields in the `CustomerPageModel` class.
-        pd.AddSQLFrom('FROM examples/cmastnewL2')  
-
-        // Add the _optional_ WHERE clause.
-        // pd.AddSQLWhere('WHERE where ....') 
-
-        // Add the ORDER BY clause.
-        // It's possible to change the ORDER BY clause at runtime, but if you do, be sure to also set the page number back to 1.
-        pd.AddSQLOrderBy('ORDER BY cmname, cmcustno')  
-
-        //  Query and write the page data. 
-        //  SQL's OFFSET value is zero-based. An OFFSET of zero gets you page 1. To help keep you sane, the 
-        //  page number provided to the `WriteThenReadTempFile` method is one-based (ie, when PageNumber = 1 you get page 1.) 
-        //  A "page" of data is derived by SQL with its LIMIT and OFFSET classes and the ORDER BY clause governs the arrival
-        //  sequence of the rows into the list and how pages are determined. 
-        pd.WriteThenReadTempFile(PageNumber)
-
-        // Immediately after calling `WriteThenReadTempFile` the input file has been queried
-        // and its result set written to a work file. The work file has been read and the 
-        // `Customers` collection populated. (See the `OnAfterRowRead` event handler below.)
-        
-        // The work file schema is defined by the `CustomerPageModel` class. The fields 
-        // defined in your SELECT class govern what fields are written to the work file. 
-
-        // At this point, the `PagedData` class has these properties available for your use:
-
-        // * `pd.MillisecondsToCreateWorkFile` - Integer value of milliseconds it took to create the work file.
-        // * `pd.MillisecondsToReadWorkFile`  - Integer value of the milliseconds it to to to read the work file.
-        // * `pd.MoreRecords` - Boolean value that is *True if there are more pages of records to read.
-        // * `pd.RowsRead` - Integer value of actual number of records read. It may be less that the page 
-        // size requested if EOF was reached before full page was read.
-
-        // Usually, here you would bind the `Customers` collection to grid control. In ASP.NET you would do
-        // this:
-        // ```
-        // gridviewCustomers.DataSource = Customers
-        // gridviewCustomers.DataBind() 
-        // ```
-
-        // For this example, iterate over the `Customers` collection and show its fields.
-        Console.WriteLine("Page number: {0}", PageNumber)             
-        ForEach Customer Type(CustomerPageModel) Collection(*This.Customers) 
-            Console.WriteLine("{0:00000} - {1}", Customer.CMCustNo, Customer.CMName)
-        EndFor 
-        Console.WriteLine("----------------------------------------") 
-    EndSr
-
-    BegSr OnAfterRowRead Event(pd.AfterRowRead) 
-        DclSrParm Sender Type(*Object)
-        DclSrParm e Type(ASNA.DataGateHelper.AfterRowReadArgs) 
-
-        // This event is raised by the `PagedData` class for each row read.
-        // The `e.CustomClassInstance` argument is the `CustomerPageModel` class instance 
-        // created by `PagedData` for a given row. Cast that instance 
-        // as a `CustomerPageModel` and add it to the `Customers` collection.
-
-        // Caution: don't forget to add this event handler and to add the 
-        // code below to add the PageModel to the PageModel collection. If you forget
-        // this, the program finishes normally but the PageModel collection is empty. 
-        // And, I promise, will drive you crazy! 
-        Customers.Add(e.CustomClassInstance *As CustomerPageModel) 
-    EndSr
+        Console.Write("Enter page size: ")
+        ConsoleInput = Console.ReadLine() 
+        PageSize = Convert.ToInt32(ConsoleInput) 
     
+        PageNumber = 0
 
-EndClass
+        DoWhile *True 
+            Console.Write("Enter page number (or press enter for next page): ")
 
-// The `CustomerPageModel's` fields must be present in the file specified in the SQL's `FROM` clause.
-// You can name this class anything you want, but a good convention is to have it end with 
-// 'PageModel' to convey its purpose. It is usually a good practice to put every class in its own 
-// source member. For example purposes here it is included in this source member.
-BegClass CustomerPageModel Access(*Public) 
-    DclProp CMCustNo Type(*Packed) Len(9,0) Access(*Public)
-    DclProp CMName Type(*String) Access(*Public)
+            ConsoleInput = Console.ReadLine() 
+            If NOT String.IsNullOrEmpty(ConsoleInput) AND ConsoleInput.ToLower().Trim().Substring(0,1) = 'q'
+                LeaveSr 
+            EndIf  
+
+            If String.IsNullOrEmpty(ConsoleInput) 
+                ConsoleInput = (PageNumber + 1).ToString()
+            EndIf 
+
+            If NOT Regex.IsMatch(ConsoleInput, "^\d+$")
+                Console.WriteLine("Please enter a number") 
+                Iterate
+            EndIf 
+
+            PageNumber = Convert.ToInt32(ConsoleInput) 
+
+            MoreRecords = Pager.GetPage(PageNumber, PageSize) 
+            If MoreRecords 
+                Console.WriteLine('More pages to show...')
+            Else
+                Console.WriteLine('No more pages to show.')
+            EndIf
+        EndDo 
+
+        pager.Close() 
+    EndSr
 EndClass

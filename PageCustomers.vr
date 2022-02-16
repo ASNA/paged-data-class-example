@@ -8,6 +8,10 @@ Using ASNA.DataGateHelper
 
 DclNamespace TestPagedData
 
+// The `CustomerPageModel` class defines the temporary work file the SQL creates. 
+// Declare a collection of `CustomerPageModel`. A `CustomerPageModel` instance
+// is created for each record read. 
+
 BegClass PageCustomers Access(*Public) 
     DclFld Customers Type(List(*Of CustomerPageModel)) New()
 
